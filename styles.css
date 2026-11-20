@@ -125,3 +125,25 @@ dl.facts dd { margin: 0; }
 .related .note { font-size: 12px; color: var(--muted); margin: 10px 0 0; }
 .unitonly { font-size: 12px; font-weight: 400; color: var(--muted); margin-left: 8px; display: inline-flex; gap: 4px; align-items: center; }
 .related.unit-filter li.other-unit { display: none; }
+
+/* Food radar */
+.words { margin: -4px 0 10px; font-size: 13px; color: var(--muted); }
+.words summary { cursor: pointer; }
+.words label { display: block; margin-top: 6px; }
+.words input { display: block; width: 100%; margin-top: 4px; font: inherit; padding: 8px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+.tracker { list-style: none; display: flex; gap: 4px; margin: 10px 0 0; padding: 0; }
+.tracker li { flex: 1; font-size: 11px; text-align: center; padding: 3px 2px; border-radius: 6px; background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+.tracker li.on { background: color-mix(in srgb, var(--c) 18%, transparent); color: var(--text); border-color: color-mix(in srgb, var(--c) 50%, transparent); }
+.tracker li.now { background: var(--c); color: #fff; border-color: var(--c); font-weight: 600; }
+.signals { list-style: none; margin: 10px 0 0; padding: 0; border-left: 2px solid var(--border); }
+.signals li { font-size: 13px; padding: 3px 0 3px 10px; }
+.signals .when, .rel .when { color: var(--muted); font-variant-numeric: tabular-nums; }
+.signals .what { color: var(--muted); }
+.more { font-size: 12px; color: var(--muted); margin: 4px 0 0 12px; }
+.rel li.foodrow { border-left: 3px solid var(--new); margin-left: -2px; }
+.owner-props { list-style: none; padding: 0; margin: 4px 0 0; }
+.owner-props > li { font-size: 13px; padding: 4px 0; }
+.owner-props > li > ul { margin: 4px 0 0; }
+@media (max-width: 520px) { .tracker li { font-size: 9px; } }

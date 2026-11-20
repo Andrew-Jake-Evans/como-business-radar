@@ -1,27 +1,27 @@
-# CoMo Business Radar
+# CoMo Food Radar
 
 **Live:** https://andrew-jake-evans.github.io/como-business-radar/
 
-A map and feed of what's opening, being built out and planned in Columbia, Missouri. Nothing is stored ahead of time: when you pick a time window, the Radar asks the city and state for just those records, live.
+Spots restaurants and food businesses on the way in Columbia, Missouri. Each visit searches the city's permits, plans, business licenses and inspections, plus planning cases, for any hint of food-related work, then groups what it finds by place and shows how far along each one is: **planning → construction → licensing → inspections → signage**.
 
-- **New activity:** commercial and sign permits plus any permit or plan mentioning your watch words (default: restaurant, food), grouped into one project per address with its sub-permits. Permits are usually the first public sign that something is coming.
-- **Related records:** drill into any address to see every permit, plan, business license, inspection and code case filed there (with an "only this unit" filter for strip centers), or into a business name to see its other licenses and permits.
-- **Street View and Google Maps** links for each commercial property.
-- **Business licenses:** city license applications, with a "likely new" flag that separates first-time businesses from renewals, plus zoning, the building's owner (when it's a company) and any state liquor license.
-- **Planned development:** rezonings, plats, annexations and concept reviews filed with the city, with links to the original applications.
+- **One search per record type:** the city's search treats space-separated words as "any of", so the whole food vocabulary (restaurant, cafe, coffee, bakery, brewery, pizza, taco, catering, grease…) costs one request per record type. Matches that aren't really about food (a school kitchen) are filtered out.
+- **Places, not records:** a tenant finish, kitchen hood permit, food inspection and sign at the same unit become one place with a stage tracker.
+- **Something new vs. routine:** places with only routine food inspections or license renewals are hidden unless you ask for them.
+- **Related records:** drill into a place to see every permit, plan, license, inspection and code case at the address (with an only-this-unit filter), other filings at the same property owner's other properties, and the business's other licenses.
+- **Street View and Google Maps** links open in a new tab.
 - **Data sources:** every source, what was read during your visit, and which fields are shown or deliberately left out.
 
 ## How it works
 
 ```
-Browser ──► Cloudflare Worker relay ──► City EnerGov public search   (licenses, permits)
+Browser ──► Cloudflare Worker relay ──► City EnerGov public search   (permits, plans, licenses, inspections)
    │
-   ├──────► City of Columbia ArcGIS ──► parcels, zoning, planning cases
+   ├──────► City of Columbia ArcGIS ──► parcels, owners, zoning, planning cases
    └──────► data.mo.gov ──────────────► liquor licenses
 ```
 
 - **Site** (`index.html`, `app.js`, `styles.css`): plain HTML/CSS/JS with Leaflet, hosted on GitHub Pages. It pages through results newest-first until it reaches your time window, fetching a few pages at a time and showing results as they arrive.
-- **Relay** (`worker/`): the city's EnerGov search blocks requests from other websites, so a small Cloudflare Worker relays two kinds of search: newest-first feeds (permits, plans, licenses, optional keyword) and related-record lookups by address or business name. It builds the city request itself (it is not an open proxy), keeps only business records, strips personal fields and caches each page for 10 minutes.
+- **Relay** (`worker/`): the city's EnerGov search blocks requests from other websites, so a small Cloudflare Worker relays two kinds of search: newest-first feeds (permits, plans, licenses, inspections, with keywords) and related-record lookups by address, business name or parcel number. It builds the city request itself (it is not an open proxy), keeps only business records, strips personal fields and caches each page for 10 minutes.
 - **Local twin** (`scripts/dev_server.mjs`): serves the site and runs the same relay code at `/api`, so everything works on your machine with no accounts.
 
 ## Privacy choices

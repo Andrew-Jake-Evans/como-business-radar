@@ -4,9 +4,9 @@
  * The City of Columbia's EnerGov public search doesn't allow requests from other websites,
  * so this Worker relays a limited set of searches for the Radar site:
  *
- *   GET /search?kind=permits|plans|licenses[&keyword=...]&page=1&size=100
- *       Newest-first feed. Permits/plans/licenses only, optional keyword.
- *   GET /related?q=<address or business name>&module=permits|plans|licenses|inspections|codecases&size=25
+ *   GET /search?kind=permits|plans|licenses|inspections[&keyword=...][&exact=1]&page=1&size=100
+ *       Newest-first feed. Space-separated keywords match any of the words.
+ *   GET /related?q=<address, business name or parcel number>&module=permits|plans|licenses|inspections|codecases&size=25
  *       Every record of one type that mentions an address or business, newest first.
  *
  * It builds each city request itself (it is not an open proxy), drops records about private homes
@@ -24,6 +24,8 @@ const CACHE_SECONDS = 600;
 const MAX_PAGE = 60;
 const MAX_SIZE = 100;
 const KEYWORD_RE = /^[\w &'.,#/-]{2,60}$/;
+// Feed searches may carry a list of words (the city's search ORs space-separated words).
+const FEED_KEYWORD_RE = /^[\w &'.,#/-]{2,240}$/;
 
 // How each EnerGov module is searched and sorted.
 const MODULES = {
@@ -122,8 +124,9 @@ async function handle(url) {
   if (path === "/search") {
     const kind = p.get("kind");
     const keyword = (p.get("keyword") || "").trim();
-    if (!["permits", "plans", "licenses"].includes(kind)) return [400, { error: "kind must be permits, plans or licenses" }];
-    if (keyword && !KEYWORD_RE.test(keyword)) return [400, { error: "keyword must be 2-60 letters, numbers or simple punctuation" }];
+    if (!["permits", "plans", "licenses", "inspections"].includes(kind)) return [400, { error: "kind must be permits, plans, licenses or inspections" }];
+    if (kind === "inspections" && !keyword) return [400, { error: "inspection feeds need a keyword" }];
+    if (keyword && !FEED_KEYWORD_RE.test(keyword)) return [400, { error: "keyword must be 2-240 letters, numbers or simple punctuation" }];
     const exact = p.get("exact") === "1";
     const out = await cityQuery(kind, { keyword, exact, page, size });
     return [200, { kind, keyword: keyword || null, page, size, ...out, fetched_at: new Date().toISOString() }];
@@ -136,7 +139,7 @@ async function handle(url) {
     const out = await cityQuery(module, { keyword: q, exact: true, page: 1, size: Math.min(size, 50) });
     return [200, { q, module, ...out, fetched_at: new Date().toISOString() }];
   }
-  return [200, { ok: true, usage: ["/search?kind=permits|plans|licenses&keyword=restaurant&page=1&size=100", "/related?q=2101 W BROADWAY&module=permits|plans|licenses|inspections|codecases"] }];
+  return [200, { ok: true, usage: ["/search?kind=permits|plans|licenses|inspections&keyword=restaurant cafe&page=1&size=100", "/related?q=2101 W BROADWAY&module=permits|plans|licenses|inspections|codecases"] }];
 }
 
 export default {

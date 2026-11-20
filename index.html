@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CoMo Business Radar</title>
-  <meta name="description" content="New businesses, commercial buildouts and planned development in Columbia, Missouri, from public city and state records.">
+  <title>CoMo Food Radar</title>
+  <meta name="description" content="Spot restaurants and food businesses on the way in Columbia, Missouri, from live public permits, plans, licenses and inspections.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,35 +15,38 @@
   <header class="top">
     <div class="wrap top-inner">
       <div>
-        <h1>CoMo Business Radar</h1>
-        <p class="sub">What's coming to Columbia, Missouri: new permits, businesses and development, live from public records.</p>
+        <h1>CoMo Food Radar</h1>
+        <p class="sub">Restaurants and food businesses on the way in Columbia, Missouri, spotted in live city records.</p>
       </div>
       <p class="updated" id="updated">Loading…</p>
     </div>
     <nav class="wrap tabs" role="tablist">
-      <button role="tab" data-tab="activity" aria-selected="true">New activity <span class="count" id="c-activity"></span></button>
-      <button role="tab" data-tab="licenses" aria-selected="false">Business licenses <span class="count" id="c-licenses"></span></button>
-      <button role="tab" data-tab="planning" aria-selected="false">Planned development <span class="count" id="c-planning"></span></button>
+      <button role="tab" data-tab="radar" aria-selected="true">Food radar <span class="count" id="c-radar"></span></button>
       <button role="tab" data-tab="sources" aria-selected="false">Data sources</button>
     </nav>
   </header>
 
   <main class="wrap">
     <section id="explore">
-      <div class="filters" id="filters">
-        <input type="search" id="q" placeholder="Search name, industry, address…" aria-label="Search">
-        <select id="group" aria-label="Industry"></select>
+      <div class="filters">
+        <input type="search" id="q" placeholder="Search name, address, owner…" aria-label="Search">
+        <select id="stage" aria-label="Stage"></select>
         <select id="days" aria-label="Time window">
-          <option value="7">Last 7 days</option>
-          <option value="30" selected>Last 30 days</option>
-          <option value="90">Last 90 days</option>
+          <option value="30">Last 30 days</option>
+          <option value="90" selected>Last 90 days</option>
+          <option value="180">Last 180 days</option>
         </select>
-        <label class="watch" id="watchWrap">Watch for <input type="text" id="watch" aria-label="Watch words, comma separated" placeholder="restaurant, food"></label>
-        <label class="check" id="newWrap"><input type="checkbox" id="onlyNew" checked> Likely new only</label>
-        <label class="check" id="localWrap"><input type="checkbox" id="onlyLocal"> Columbia-based only</label>
+        <label class="check"><input type="checkbox" id="showRoutine"> Include existing places</label>
       </div>
+      <details class="words">
+        <summary>Food words searched</summary>
+        <label>Separate with spaces. Each record type is searched once for any of these words.
+          <input type="text" id="words" aria-label="Food words searched">
+        </label>
+      </details>
+      <div class="legend" id="legend" aria-label="Map colors show how far along each place is"></div>
       <div class="layout">
-        <div class="mapwrap"><div id="map" aria-label="Map of results"></div></div>
+        <div class="mapwrap"><div id="map" aria-label="Map of food-related places"></div></div>
         <div class="list" id="list" aria-live="polite"></div>
       </div>
     </section>
@@ -51,14 +54,14 @@
     <section id="sources" hidden>
       <div class="intro">
         <h2>What this uses, and what it leaves out</h2>
-        <p>Nothing is stored ahead of time. When you pick filters, the Radar asks each public source for just those records. This page lists every source, what was read during this visit, and which fields are shown or deliberately left out.</p>
+        <p>Nothing is stored ahead of time. Each visit asks the city and state for food-related records in your time window, then groups them by place. This page lists every source, what was read during this visit, and which fields are shown or deliberately left out.</p>
       </div>
       <div id="sourceList"></div>
     </section>
   </main>
 
   <footer class="wrap foot">
-    <p>Built by <a href="https://andrew-jake-evans.github.io">Andrew Evans</a> with AI assistance. Every search runs live against public records. Not affiliated with the City of Columbia or the State of Missouri. <a href="https://github.com/Andrew-Jake-Evans/como-business-radar">Source code</a></p>
+    <p>Built by <a class="ext" href="https://andrew-jake-evans.github.io" target="_blank" rel="noopener">Andrew Evans</a> with AI assistance. Every search runs live against public records. Not affiliated with the City of Columbia or the State of Missouri. <a class="ext" href="https://github.com/Andrew-Jake-Evans/como-business-radar" target="_blank" rel="noopener">Source code</a></p>
   </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
