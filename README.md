@@ -42,6 +42,6 @@ npx wrangler login
 npx wrangler deploy
 ```
 
-Put the printed `workers.dev` URL in `config.js`.
+The relay is live at https://como-business-radar.andrew-jake-evans.workers.dev (its address is set in `config.js`).
 
 Not affiliated with the City of Columbia or the State of Missouri. Built by [Andrew Evans](https://andrew-jake-evans.github.io) with AI assistance.
