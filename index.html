@@ -16,13 +16,13 @@
     <div class="wrap top-inner">
       <div>
         <h1>CoMo Business Radar</h1>
-        <p class="sub">What's opening, being built out and planned in Columbia, Missouri, from public records.</p>
+        <p class="sub">What's coming to Columbia, Missouri: new permits, businesses and development, live from public records.</p>
       </div>
       <p class="updated" id="updated">Loading…</p>
     </div>
     <nav class="wrap tabs" role="tablist">
-      <button role="tab" data-tab="businesses" aria-selected="true">New businesses <span class="count" id="c-businesses"></span></button>
-      <button role="tab" data-tab="buildouts" aria-selected="false">Buildouts <span class="count" id="c-buildouts"></span></button>
+      <button role="tab" data-tab="activity" aria-selected="true">New activity <span class="count" id="c-activity"></span></button>
+      <button role="tab" data-tab="licenses" aria-selected="false">Business licenses <span class="count" id="c-licenses"></span></button>
       <button role="tab" data-tab="planning" aria-selected="false">Planned development <span class="count" id="c-planning"></span></button>
       <button role="tab" data-tab="sources" aria-selected="false">Data sources</button>
     </nav>
@@ -38,6 +38,7 @@
           <option value="30" selected>Last 30 days</option>
           <option value="90">Last 90 days</option>
         </select>
+        <label class="watch" id="watchWrap">Watch for <input type="text" id="watch" aria-label="Watch words, comma separated" placeholder="restaurant, food"></label>
         <label class="check" id="newWrap"><input type="checkbox" id="onlyNew" checked> Likely new only</label>
         <label class="check" id="localWrap"><input type="checkbox" id="onlyLocal"> Columbia-based only</label>
       </div>

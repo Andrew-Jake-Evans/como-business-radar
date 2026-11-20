@@ -4,8 +4,10 @@
 
 A map and feed of what's opening, being built out and planned in Columbia, Missouri. Nothing is stored ahead of time: when you pick a time window, the Radar asks the city and state for just those records, live.
 
-- **New businesses:** city business license applications, with a "likely new" flag that separates first-time businesses from renewals, plus zoning, the building's owner (when it's a company) and any state liquor license.
-- **Buildouts:** commercial alteration, new-building and sign permits, which often show a business moving into a space before it opens.
+- **New activity:** commercial and sign permits plus any permit or plan mentioning your watch words (default: restaurant, food), grouped into one project per address with its sub-permits. Permits are usually the first public sign that something is coming.
+- **Related records:** drill into any address to see every permit, plan, business license, inspection and code case filed there (with an "only this unit" filter for strip centers), or into a business name to see its other licenses and permits.
+- **Street View and Google Maps** links for each commercial property.
+- **Business licenses:** city license applications, with a "likely new" flag that separates first-time businesses from renewals, plus zoning, the building's owner (when it's a company) and any state liquor license.
 - **Planned development:** rezonings, plats, annexations and concept reviews filed with the city, with links to the original applications.
 - **Data sources:** every source, what was read during your visit, and which fields are shown or deliberately left out.
 
@@ -19,7 +21,7 @@ Browser ──► Cloudflare Worker relay ──► City EnerGov public search  
 ```
 
 - **Site** (`index.html`, `app.js`, `styles.css`): plain HTML/CSS/JS with Leaflet, hosted on GitHub Pages. It pages through results newest-first until it reaches your time window, fetching a few pages at a time and showing results as they arrive.
-- **Relay** (`worker/`): the city's EnerGov search blocks requests from other websites, so a small Cloudflare Worker relays a fixed set of searches. It builds the city request itself (it is not an open proxy), keeps only business records, strips personal fields and caches each page for 10 minutes.
+- **Relay** (`worker/`): the city's EnerGov search blocks requests from other websites, so a small Cloudflare Worker relays two kinds of search: newest-first feeds (permits, plans, licenses, optional keyword) and related-record lookups by address or business name. It builds the city request itself (it is not an open proxy), keeps only business records, strips personal fields and caches each page for 10 minutes.
 - **Local twin** (`scripts/dev_server.mjs`): serves the site and runs the same relay code at `/api`, so everything works on your machine with no accounts.
 
 ## Privacy choices
