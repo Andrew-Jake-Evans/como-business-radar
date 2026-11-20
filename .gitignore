@@ -1,0 +1,4 @@
+scripts/.relay.local.mjs
+node_modules/
+.wrangler/
+.DS_Store
